@@ -1,59 +1,85 @@
-var currentPokemonName = ""; // Track the name of the current Pokemon
-var points = 0;
+let currentPokemonName = ""; // Track the name of the current Pokemon
+let points = 0; // Assign the start point value as 0
+let totalHints = 1; // Assign the totalHints used as 0
+var revealed = []
 
 document.getElementById("press").addEventListener("click", guessPokemon, true);
 document.getElementById("reset").addEventListener("click", randomPokemon, true);
 document.getElementById("hint").addEventListener("click", hint, true);
 
+// Function to generate a random Pokémon
 function randomPokemon() {
-    var min = 1; // Minimum Pokémon number
-    var max = 800; // Maximum Pokémon number
-    var randomPokemonNumber = Math.floor(Math.random() * (max - min + 1)) + min; // Generate a random Pokémon number
-    var url = "https://pokeapi.co/api/v2/pokemon/" + randomPokemonNumber; // Construct the URL
+    let min = 1; // Minimum Pokémon number
+    let max = 800; // Maximum Pokémon number
+    let randomPokemonNumber = Math.floor(Math.random() * (max - min + 1)) + min; // Generate a random Pokémon number
+    let url = "https://pokeapi.co/api/v2/pokemon/" + randomPokemonNumber; // Construct the URL
     apiRequest(url);
+
+    revealed = []
+    totalHints = 1
+    document.getElementById("revealed").innerHTML = "..."
+
 }
 
+// Function to make an API request to retrieve Pokémon data
 function apiRequest(url) {
-    var xhttp = new XMLHttpRequest();
+    let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var responseData = xhttp.responseText;
-            var parsedData = JSON.parse(responseData);
-            var pokemonName = parsedData.name;
+            let responseData = xhttp.responseText;
+            let parsedData = JSON.parse(responseData);
+            let pokemonName = parsedData.name;
 
             // Access the sprites array and get the front_default image URL and then update it
-            var spriteModel = parsedData.sprites.other.home.front_default;
+            let spriteModel = parsedData.sprites.other.home.front_default;
             document.getElementById("image").src = spriteModel;
 
             // Store the name of the current Pokemon
             currentPokemonName = pokemonName;
-            console.log(pokemonName)
+            console.log(pokemonName);
         }
     };
 
+
+    // Make the API request through GET-request
     xhttp.open("GET", url, true);
     xhttp.send();
 }
 
+// Function to handle the player's guess
 function guessPokemon() {
-    var displayText = document.getElementById("response");
-    var guess = document.getElementById('guess').value;
+    let displayText = document.getElementById("response");
+    let guess = document.getElementById('guess').value;
 
+    // If a guess is empty, do not continue with anything, but rather return
+    if(guess === ""){
+        return
+    }
+
+    // If the guess is correct, add +1 point to the currentPoints
     if (guess.toLowerCase() === currentPokemonName.toLowerCase()) {
         displayText.innerHTML = ("Correct! You guessed the Pokemon!");
         displayText.style.color = "green";
 
+        // Add points per corrected guess
         points += 1;
         document.getElementById("points").innerHTML = "Current points: " + points;
+        document.getElementById("revealed").innerHTML = "..."
+
+        // Reset the current stats
+        revealed = []
+        totalHints = 1
+
+        // Generate a new random Pokémon for the next round
+        randomPokemon(); 
 
         // Set a timeout to clear the message after 5 seconds
         setTimeout(function () {
             displayText.innerHTML = "";
         }, 5000);
 
-        randomPokemon();
-    
-    }else {
+        
+    } else {
         displayText.innerHTML = ("Wrong! Guess again!");
         displayText.style.color = "red";
 
@@ -64,9 +90,26 @@ function guessPokemon() {
     }
 }
 
-function hint(){
-    alert("Starts with an, "+ currentPokemonName.toUpperCase()[0]) 
-}
+// Function to provide a hint
+function hint() {
+    if (points > 0){
+        totalHints += 1
+        points -= 1
+    
+        if(totalHints >= currentPokemonName.length + 2){
+            alert("There's no more letters to reveal!")
+            return
+        }
+    
+        revealed.push(currentPokemonName.toUpperCase()[totalHints - 2])
+        document.getElementById("revealed").innerHTML = revealed.join("")
+        document.getElementById("points").innerHTML = "Current points: " + points;
 
-// Start the game by generating the first random Pokemon.
+    }else{
+        alert("Insufficent amount of points to spend!")
+        return
+    }
+}   
+
+// Start the game by generating the first random Pokémon.
 randomPokemon();
