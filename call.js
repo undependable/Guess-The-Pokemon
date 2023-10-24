@@ -1,7 +1,7 @@
 let currentPokemonName = ""; // Track the name of the current Pokemon
 let points = 0; // Assign the start point value as 0
 let totalHints = 1; // Assign the totalHints used as 0
-var revealed = []
+var revealed = [] // Assign the empty list where it'll be used later on to add individual letters of the pokemon per hint 
 
 document.getElementById("press").addEventListener("click", guessPokemon, true);
 document.getElementById("reset").addEventListener("click", randomPokemon, true);
@@ -13,18 +13,18 @@ function randomPokemon() {
     let max = 800; // Maximum Pokémon number
     let randomPokemonNumber = Math.floor(Math.random() * (max - min + 1)) + min; // Generate a random Pokémon number
     let url = "https://pokeapi.co/api/v2/pokemon/" + randomPokemonNumber; // Construct the URL
-    apiRequest(url);
+    apiRequest(url); // Send the url result so that the function "apiRequest" can use it
 
-    revealed = []
-    totalHints = 1
-    document.getElementById("revealed").innerHTML = "..."
-
+    revealed = [] // Reset the list
+    totalHints = 1 // Reset totalHints
+    document.getElementById("revealed").innerHTML = ""
 }
 
 // Function to make an API request to retrieve Pokémon data
 function apiRequest(url) {
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
+        // If response code is 200
         if (this.readyState == 4 && this.status == 200) {
             let responseData = xhttp.responseText;
             let parsedData = JSON.parse(responseData);
@@ -64,7 +64,7 @@ function guessPokemon() {
         // Add points per corrected guess
         points += 1;
         document.getElementById("points").innerHTML = "Current points: " + points;
-        document.getElementById("revealed").innerHTML = "..."
+        document.getElementById("revealed").innerHTML = ""
 
         // Reset the current stats
         revealed = []
@@ -95,16 +95,19 @@ function hint() {
     if (points > 0){
         totalHints += 1
         points -= 1
-    
+        
+        // If totalHints is greater or equal to the total length of the current pokemon
         if(totalHints >= currentPokemonName.length + 2){
             alert("There's no more letters to reveal!")
             return
         }
     
+        // Insert the new hint in the list, and show the deducted points in the HTML page
         revealed.push(currentPokemonName.toUpperCase()[totalHints - 2])
         document.getElementById("revealed").innerHTML = revealed.join("")
         document.getElementById("points").innerHTML = "Current points: " + points;
 
+    // Display an error message indicating that the user has no more points to use
     }else{
         alert("Insufficent amount of points to spend!")
         return
