@@ -1,0 +1,25 @@
+body {
+    background-color: black;
+    font-family: monospace;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#main {
+    color: white;
+    text-align: center;
+}
+
+#main #description{
+    color:gray;
+}
+
+
+#pokemonImage img {
+    width: 200px;
+    height: 200px;
+}
