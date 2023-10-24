@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Home - Guess the Pokemon</title>
-        <link rel="stylesheet" href="style.css">
-        <link rel = "icon" href =  "https://pm1.aminoapps.com/7333/6899c11b5ee77c46caf1e521b1fd34f7cd245247r1-1378-1378v2_hq.jpg" type = "image/x-icon"> 
-        <meta property="og:title" content="Guess the Pokemon">
-        <meta property="og:type" content="website">
-        <meta property="og:image" content="https://pm1.aminoapps.com/7333/6899c11b5ee77c46caf1e521b1fd34f7cd245247r1-1378-1378v2_hq.jpg">
-        <meta property="og:description" content="Guess the Pokemon is a pokemon quiz game where you're supposed to try guessing the correct pokemon!">
-        <meta name="theme-color" content="#7B6AE3">
+        <title>Guess the Pokemon</title>
+        <link rel="stylesheet" href="/Guess The Pokemon/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <link rel = "icon" href =  "https://cdn.iconscout.com/icon/free/png-256/free-pokemon-pokeball-game-go-34722.png" type = "image/x-icon"> 
     </head>
 
     <body>
         <div id="main">
-            <h2 id="title" style="text-align: left;">Welcome to Guess the Pokemon!</h3>
-            <p id="description" style="text-align: left;"><i>You can start by typing the name of the displaying<br> pokemon below.</i></p>
+            <h2 id="title">Welcome to Guess the Pokemon!</h3>
+            <p id="description"><i>You can start by typing the name of the displaying<br> pokemon below.</i></p>
 
             <p id="response"></p>
+            <p id="revealed"></p>
             <div id="pokemonImage"><img id="image" src=""></div>
 
-            <p id="points">Current points: 0</p>
+            <p id="points">Current points: <b>0</b></p>
 
             <input id="guess" placeholder="Your guess">
             <br><br><button id="press">Guess</button> <button id="hint">Hint</button> <button id="reset">Reset</button>
         </div>
     </body>
-    <script src="call.js"></script>
+    <script src="/Guess The Pokemon/call.js"></script>
 </html>
