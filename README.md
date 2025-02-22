@@ -37,7 +37,7 @@ Players are challenged to enter the name of the Pokémon correctly. If they gues
 You can host this game on your own web server or use a code hosting service like GitHub Pages to make it available online. Here are the steps to get started:
 
   ```bash
-  git clone https://github.com/yourusername/guess-the-pokemon.git
+  git clone https://github.com/undependable/guess-the-pokemon.git
   ```
 
 
